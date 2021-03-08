@@ -1,0 +1,466 @@
+---
+title: "MAS6052 - Exercises"
+header-includes:
+   - \usepackage{bbm}
+   - \usepackage{mathtools}
+output: 
+  pdf_document
+---
+
+---
+title: "Convergence of Random Variables"
+header-includes:
+   - \usepackage{bbm}
+output: 
+  pdf_document:
+    number_sections: true
+---
+
+# Chapter  6
+
+## 6.1
+
+Let $(X_n)$ be a sequence of independent random variables such that:
+
+$$
+X_n = \begin{cases}
+      2^{-n} & \text{with probability} \ \frac{1}{2}\\
+      0 & \text{with probability} \ \frac{1}{2}\\
+    \end{cases}  
+$$
+
+Show that $X_n \xrightarrow[]{\mathcal{L}^1} 0$ and $X_n \xrightarrow[]{a.s.} 0$.
+Deduce that $X_n \xrightarrow[]{\mathbb{P}} 0$ and $X_n \xrightarrow[]{d} 0$.
+
+### Convergence in $\mathcal{L}^1$
+
+We need to prove:
+
+$$
+\mathbb{E}[|X_n - 0|] \rightarrow 0
+$$
+We have:
+
+$$
+\mathbb{E}[|X_n - 0|] = \mathbb{E}[X_n] = \frac{1}{2^{n + 1}}
+$$
+And:
+$$
+\lim_{n \rightarrow \infty} \frac{1}{2^{n + 1}} = 0
+$$
+Hence, we have $\mathcal{L}^1$ convergence.
+
+### Almost Sure Convergence
+
+We need to prove:
+
+$$
+\mathbb{P}\left [ \left \{ \omega: \lim_{n \rightarrow \infty} X_n(\omega) = 0 \right \} \right] = 1
+$$
+
+We have that $0 \leq X_n \leq 2^{-n}$, hence:
+
+$$
+0 \leq \lim_{n \rightarrow \infty} X_n(\omega) \leq \lim_{n \rightarrow \infty} 2^{-n} = 0
+$$
+By the sandwich rule:
+
+$$
+\lim_{n \rightarrow \infty} X_n(\omega) = 0
+$$
+and hence:
+$$
+\mathbb{P}\left [ \left \{ \omega: \lim_{n \rightarrow \infty} X_n(\omega) = 0 \right \} \right] = 1
+$$
+
+### Convergence in Probability and Distribution
+
+Since almost sure convergence implies convergence in probability, and convergence
+in probability implies convergence in distribution (lemma 6.1.2), we also have
+$X_n \xrightarrow[]{\mathbb{P}} 0$ and $X_n \xrightarrow[]{d} 0$.
+
+## 6.2
+
+Let $X_n, X$ be random variables.
+
+(a) suppose that$X_n \xrightarrow[]{\mathcal{L}^1} X$ as $n \rightarrow \infty$. 
+    Show that $\mathbb{E}[X_n] \rightarrow \mathbb{E}[X]$
+    
+By assumption, we have that:
+
+
+$$
+\mathbb{E}[|X_n - X|] \rightarrow 0
+$$
+
+By the Absolute Value property of Expectation and linearity, we have:
+
+$$
+0 \leq |\mathbb{E}[X_n - X]| = |\mathbb{E}[X_n] - \mathbb{E}[X]| \leq \mathbb{E}[|X_n - X|] \rightarrow 0
+$$
+Hence, by the sandwich rule:
+
+$$
+|\mathbb{E}[X_n] - \mathbb{E}[X]| \rightarrow 0
+$$
+
+And, hence, $\mathbb{E}[X_n] \rightarrow \mathbb{E}[X]$
+
+(b) Give an example where $\mathbb{E}[X_n] \rightarrow \mathbb{E}[X]$ but $X_n$ 
+    does not converge to X in $\mathcal{L}^1$
+    
+A pretty trivial counterexample is any sequence of random variables $X_n$ such 
+that $\mathbb{E}[X_n] = 0$, but $\mathbb{E}[|X_n|] \neq 0$ and does not converge
+to zero. In that case, by setting $X = 0$, we have that $\mathbb{E}[X_n] = 0 \rightarrow 0 = \mathbb{E}[X]$, 
+but $\mathbb{E}[|X_n - 0|]$ does not converge to zero. For example:
+
+$$
+X_n = \begin{cases}
+      n & \text{with probability} \ \frac{1}{2}\\
+      -n & \text{with probability} \ \frac{1}{2}\\
+    \end{cases}  
+$$
+We have that $\mathbb{E}[X_n] = 0$, but:
+
+$$
+\mathbb{E}[|X_n - 0|] = \mathbb{E}[|X_n|] = n
+$$
+which does not converge to $\mathbb{E}[0] = 0$.
+
+## 6.3
+
+Let $U$ be a random variable such that $\mathbb{P}[U = 0] = \mathbb{P}[U = 1] = \mathbb{P}[U = 2] = \frac{1}{3}$.
+Let:
+
+$$
+X_n = \begin{cases}
+      1 + \frac{1}{n} & \text{if} \ U = 0\\
+      1 - \frac{1}{n} & \text{if} \ U = 1\\
+      0 & \text{if} \ U = 2\\
+    \end{cases}  
+$$
+
+and:
+
+$$
+X = \begin{cases}
+      1 & \text{if} \ U \in \{0, 1\}\\
+      0 & \text{if} \ U = 2\\
+    \end{cases}  
+$$
+
+Show that $X_n \xrightarrow[]{\mathcal{L}^1} 0$ and $X_n \xrightarrow[]{a.s.} 0$.
+Deduce that $X_n \xrightarrow[]{\mathbb{P}} 0$ and $X_n \xrightarrow[]{d} 0$.
+
+### Convergence in $\mathcal{L}^1$
+
+We need to prove:
+
+$$
+\mathbb{E}[|X_n - X|] \rightarrow 0
+$$
+We have that:
+
+$$
+0 \leq |X_n - X| \leq \frac{1}{n}
+$$
+Hence, by monotonicity of expectation:
+
+$$
+0 \leq \mathbb{E}[|X_n - X|] \leq \frac{1}{n}
+$$
+
+And by the sandwich rule:
+
+$$
+\mathbb{E}[|X_n - X|] \rightarrow 0
+$$
+
+### Almost Sure convergence
+
+We need to prove:
+
+$$
+\mathbb{P}\left [ \left \{ \omega: \lim_{n \rightarrow \infty} X_n(\omega) = X(\omega) \right \} \right] = 1
+$$
+
+We have:
+
+$$
+\mathbb{P}\left [ \left \{ \omega: \lim_{n \rightarrow \infty} X_n(\omega) = X(\omega) \right \} \right] = 
+$$
+$$
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} X_n = X  \middle | U = 0 \right]\mathbb{P}[U = 0] + 
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} X_n = X  \middle | U = 1 \right]\mathbb{P}[U = 1] +
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} X_n = X  \middle | U = 2 \right]\mathbb{P}[U = 2]
+$$
+$$
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} 1 + \frac{1}{n} = 1  \middle | U = 0 \right]\frac{1}{3} + 
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} 1 - \frac{1}{n} = 1  \middle | U = 1 \right]\frac{1}{3} + 
+\mathbb{P}\left [ \lim_{n \rightarrow \infty} 0 = 0  \middle | U = 2 \right]\frac{1}{3} = 1
+$$
+
+### Convergence in Probability and Distribution
+
+Since almost sure convergence implies convergence in probability, and convergence
+in probability implies convergence in distribution (lemma 6.1.2), we also have
+$X_n \xrightarrow[]{\mathbb{P}} 0$ and $X_n \xrightarrow[]{d} 0$.
+
+## 6.4
+
+Let $X_1$ be a random variable with distribution given by 
+$\mathbb{P}[X_1 = 1] = \mathbb{P}[X_1 = 0] = \frac{1}{2}$. Set $X_n = X_1$ for 
+all $n \geq 2$. Set $Y = 1 - X_1$. Show that $X_n \rightarrow Y$ in distribution, 
+but not in probability.
+
+To show convergence in distribution, we need to prove:
+
+$$
+\lim_{n \rightarrow \infty} \mathbb{P}[X_n \leq x] = \mathbb{P}[Y \leq x] \ \forall \ x \in \mathbb{R}: \mathbb{P}[Y = x] = 0
+$$
+We have:
+
+$$
+\mathbb{P}[Y \leq x] = \begin{cases}
+  0 & \text{if} \ x < 0\\
+  \frac{1}{2} & \text{if} \ x \in [0, 1)\\
+  1 & \text{if} \ x \geq 1\\
+\end{cases}
+$$
+Hence, we need to prove convergence in the intervals $(-\infty, 0)$, $(0, 1)$ 
+and $(1, \infty)$.
+
+* For $(-\infty, 0)$, we have $\lim_{n \rightarrow \infty}\mathbb{P}[X_n \leq x]  = \mathbb{P}[X_1 \leq x] = 0$.
+* For $(0, 1)$, we have $\lim_{n \rightarrow \infty}\mathbb{P}[X_n \leq x]  = \mathbb{P}[X_1 \leq x] = \frac{1}{2}$.
+* For $(1, \infty)$, we have  $\lim_{n \rightarrow \infty}\mathbb{P}[X_n \leq x]  = \mathbb{P}[X_1 \leq x] = 1$.
+
+Hence, we have convergence in distribution. Let's now look at convergence in 
+probability, which means:
+
+$$
+\lim_{n \rightarrow \infty} \mathbb{P}[|X_n - Y| > a] = 0, \ \forall \ a > 0
+$$
+We have:
+$$
+|X_n - Y| = |X_1 - Y| = |X_1 - 1 + X_1| = |2X_1 - 1|
+$$
+If $X_1 = 1$, than we have that $|X_n - Y| = 1$. But also if $X_1 = 0$, than we 
+have that $|X_n - Y| = 1$. So, for any $a \in (0, 1]$:
+
+$$
+\lim_{n \rightarrow \infty} \mathbb{P}[|X_n - Y| > a] = \mathbb{P}[|2X_1 - 1| > a] \neq 0
+$$
+
+And we don't have convergence in probability.
+
+## 6.4
+
+Let $(X_n)$ be the sequence of random variables from 6.1. Define:
+
+$$
+Y_n = \sum_{i = 1}^n X_i
+$$
+
+* (a) show that $\forall \ \omega \in \Omega$, the sequence $Y_n(\omega)$ is
+increasing and bounded.
+
+We have that $X_n(\omega) \geq 0, \forall \ \omega \in \Omega, \forall \ n \geq 0$.
+Hence we have that, for any $n$ and $\omega$:
+
+$$
+Y_{n + 1}(\omega) = Y_{n}(\omega) + X_{n + 1}(\omega) \geq Y_{n}(\omega)
+$$
+That is, the sequence $Y_n(\omega)$ is increasing.
+
+Also, we have that:
+
+$$
+Y_{n}(\omega) \leq \sum_{i = 1}^n \frac{1}{2^i} 
+$$
+which, being a geometric series, is bounded. Hence, $Y_{n}(\omega)$ is bounded.
+
+* (b) deduce that there exists a random variable $Y$ such that $Y_n \xrightarrow[]{a.s.} Y$
+
+Given that $Y_{n}(\omega)$ is increasing and bounded for any $\omega$, for the 
+Monotone Convergence Theorem for real valued sequence, we have:
+
+$$
+\lim_{n \rightarrow \infty} Y_{n}(\omega) = Y_{\infty}(\omega)
+$$
+
+for some $Y_\infty(\omega)$. By proposition 2.2.6, we know that $Y_\infty(\omega)$
+is a random variable.
+
+This implies that:
+
+$$
+\left \{ \omega:  \lim_{n \rightarrow \infty} Y_{n}(\omega) = Y_{\infty}(\omega) \right \} = \Omega
+$$
+And hence:
+
+$$
+\mathbb{P} \left[ \left \{ \omega:  \lim_{n \rightarrow \infty} Y_{n}(\omega) = Y_{\infty}(\omega) \right \} \right] = 1
+$$
+
+That is, $Y_n$ converges a.s. to $Y = Y_{\infty}$.
+
+* (c) Write down the distribution of $Y_1, Y_2, Y_3$
+* (d) Suggest why we might guess that $Y$ has a uniform distribution on $[0, 1]$
+* (e) Prove that $Y_n$ has a uniform distribution on $\{k2^{-n}; k = 0, 1, ..., 2^{n - 1}\}$
+* (r) Prove that $Y$ has a uniform distribution on $[0, 1]$
+
+# Chapter 10
+
+## 10.4
+
+(a). Show that $\mathbb{E}[B_t^n] = t(n - 1)\mathbb{E}[B_t^{n - 2}] \ \ \forall n \geq 2$
+
+To simplify notation, let's denote $X = B_t$. By the definition of Brownian 
+motion, we know that $X \sim \mathcal{N}(0, t)$. Using the law of the unconscious 
+statistician:
+
+$$
+\mathbb{E}[X^n] = \int_{-\infty}^{\infty} x^n \frac{1}{\sqrt{2\pi t}} e^{- \frac{x^2}{2t}} dx
+$$
+
+Note that what we want is to isolate a term corresponding to 
+$\mathbb{E}[X^{n - 2}]$. In order to do so, we need to maintain the term 
+corresponding to the normal density. Notice that such term has derivative:
+
+$$
+\frac{d}{dx} e^{- \frac{x^2}{2t}} = -\frac{x}{t} e^{- \frac{x^2}{2t}}. 
+$$
+
+Hence, we can proceed integrating by parts:
+
+$$
+\int_{-\infty}^{\infty} x^n \frac{1}{\sqrt{2\pi t}} e^{- \frac{x^2}{2t}} dx
+= \frac{1}{\sqrt{2\pi t}}\int_{-\infty}^{\infty} -tx^{n - 1} (-\frac{x}{t} e^{- \frac{x^2}{2t}}) dx
+$$
+
+$$
+= \frac{1}{\sqrt{2\pi t}} \left[ \left[ -tx^{n - 1}  e^{- \frac{x^2}{2t}}\right]_{-\infty}^{\infty} -  \int_{-\infty}^{\infty} -t(n - 1)x^{n - 2} e^{- \frac{x^2}{2t}} \right] = \\ 
+$$
+$$
+= t(n - 1) \int_{-\infty}^{\infty} x^{n - 2} \frac{1}{\sqrt{2\pi t}} e^{- \frac{x^2}{2t}} 
+= t(n - 1) \mathbb{E}[X^{n - 2}] \\
+= t(n - 1) \mathbb{E}[B_t^{n - 2}]
+$$
+
+(b). Deduce that $\mathbb{E}[B^2_t] = t$ and $\mathbb{V}ar[B^2_t] = 2t^2$
+
+We have:
+
+$$
+\mathbb{E}[B^2_t] = t \mathbb{E}[B^0_t] = t
+$$
+$$
+\mathbb{V}ar[B^2_t] = \mathbb{E}[(B^2_t)^2] - \mathbb{E}[B^2_t]^2 = 
+\mathbb{E}[B^4_t] - t^2 = 3t\mathbb{E}[B^2_t] - t^2 = 
+2t^2
+$$
+(c). Write down $\mathbb{E}[B^n_t]$ for any $n \in \mathbb{N}$
+
+We have that
+
+* $\mathbb{E}[B^n_t] = 0$ if n is odd
+
+* $\mathbb{E}[B^n_t] = (n-1)(n-3)...(1) t^{n/2}$ if n is even
+
+We can prove it by induction. For n odd, let's start by observing that 
+$\mathbb{E}[B_t] = 0$. We have our base case, $n = 1$. For our inductive case, 
+let's assume that for an odd $n - 2$, $\mathbb{E}[B^{n - 2}_t] = 0$. Since 
+$n - 2$ is odd, so is $n$. We have:
+
+$$
+\mathbb{E}[B^n_t] = t(n - 1)\mathbb{E}[B_t^{n - 2}] = 0
+$$
+And we're done. As for n even, similarly, we have our base case for $n = 2$:
+
+$$
+\mathbb{E}[B^2_t] = t \mathbb{E}[B^0_t] = t = (1) t^{2/2}
+$$
+
+As for the inductive case, let's assume that, for n - 2 even:
+
+$$
+\mathbb{E}[B^{n - 2}_t] = (n-3)(n-5)...(1) t^{(n - 2)/2}
+$$
+Then n is also even, and:
+
+$$
+\mathbb{E}[B^n_t] = t(n - 1)\mathbb{E}[B_t^{n - 2}] = t(n - 1)(n-3)(n-5)...(1) t^{(n - 2)/2}
+$$
+$$
+ = (n - 1)(n-3)(n-5)...(1) t^{n/2}
+$$
+
+
+(d). Show that $B^n_t \in L^1$ for all $n \in \mathbb{N}$
+
+# Chapter 11
+
+## 11.1 Using (11.8) find $\int_v^t 1 dB_u$, where $0 \leq v \leq t$
+
+By the consistency property of Ito integrals:
+
+$$
+\int_0^t 1 dB_u = \int_0^v 1 dB_u + \int_v^t 1 dB_u \Rightarrow 
+\int_v^t 1 dB_u = \int_0^t 1 dB_u - \int_0^v 1 dB_u
+$$
+
+By (10.8):
+
+$$
+\int_0^v 1 dB_u = B_v; \ \ \ \int_0^t 1 dB_u = B_t.
+$$
+
+Hence:
+
+$$
+\int_v^t 1 dB_u = B_t - B_u
+$$
+
+## 11.2 Show that the process $e^{B_t}$ is in $\mathcal{H}^2$. (Hint: use (10.2))
+
+We work onver a filtered space $(\Omega, \mathcal{F}, (\mathcal{F}_t), \mathbb{P})$,
+where $\mathcal{F}_t = \sigma(B_t)$. We need to show that:
+
+* $e^{B_t}$ is continuous
+* $e^{B_t}$ is adapted to $\mathcal{F}_t$
+* $e^{B_u}$ is locally square integrable, i.e. $\int_0^t \mathbb{E}[(e^{B_u})^2]du < \infty$
+
+We have that since $B_t$ and $e^x$ are continuous, their composition is 
+continuous. Furthermore, given that $B_t$ is adapted by construction, by 2.2.6, 
+so is $e^{B_t}$.
+
+As for local square integrability, since $B_t$ is a standard Brownian motion, we 
+have that $B_t \sim \mathcal{N}(0, t)$, and, hence, $2B_t \sim \mathcal{N}(0, 4t)$. 
+
+Thus:
+
+$$
+\mathbb{E}[(e^{B_u})^2] =\mathbb{E}[e^{2B_u}] = e^{2u}
+$$
+
+Where we used (10.2) to calculate the expected value. Hence:
+
+$$
+\int_0^t \mathbb{E}[(e^{B_u})^2]du = \int_0^t e^{2u}du = 
+\left[ \frac{1}{2}e^{2u} \right]_0^t = \frac{1}{2}(e^{2t} - 1) < \infty
+$$
+Which proves that $e^{B_t} \in \mathcal{H}^2$.
+
+## 11.3
+
+(a). Let $Z \sim \mathcal{N}(0, 1)$. Show that the expectation of 
+$e^{\frac{z^2}{2}}$ is infinite.
+
+We have:
+
+$$
+\mathbb{E}\left[e^{\frac{z^2}{2}} \right] = 
+$$
+
+(b). Give an example of a continuous, adapted stochastic process that is not in 
+$\mathcal{H}^2$
