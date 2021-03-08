@@ -398,6 +398,12 @@ $$
 
 (d). Show that $B^n_t \in L^1$ for all $n \in \mathbb{N}$
 
+We know that $\mathbb{V}ar[B^n_t] = \mathbb{E}[B^{2n}_t] - \mathbb{E}[B^n_t]^2 < \infty$, as
+both terms on the right hand side are, as we've seen in part (c). We also know 
+that $L^2$ is the set of random variables with finite variance, and hence 
+$B^n_t \in L^2$. Finally, we know that if a random variable is in $L^2$, then it 
+is also in $L^1$. Hence, $B^n_t \in L^1$.
+
 # Chapter 11
 
 ## 11.1 Using (11.8) find $\int_v^t 1 dB_u$, where $0 \leq v \leq t$
