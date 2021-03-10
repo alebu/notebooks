@@ -499,3 +499,39 @@ $$
 $$
 And $X_t$ is not in $\mathcal{H}^2$. *Note that we can't simply use the* 
 *stochastic process $X_t = Z$, because we can't guarantee that such process is adapted.*
+
+
+
+# Assignment 4
+
+1. Let $B_t$ be a standard Brownian motion
+
+(a) Write down the distribution of $B_t$, and write down $\mathbb{E}[B_t]$ and
+$\mathbb{E}[B_t^2]$
+
+By the definition of standard Brownian motion, we have 
+$B_t \sim \mathcal{N}(0, t)$. Hence, we know: 
+
+* $\mathbb{E}[B_t] = 0$
+* $\mathbb{V}ar[B_t] = t \Rightarrow \mathbb{E}[B_t^2] - \mathbb{E}[B_t]^2 = t \Rightarrow  \mathbb{E}[B_t^2] = t$
+
+(b) Let $0 \leq u \leq t$. Show that $\mathbb{E}[(B_t - B_u)^2 | \mathcal{F}_u] = t - u$
+
+We have:
+
+$$
+\mathbb{E}[(B_t - B_u)^2 | \mathcal{F}_u] = 
+\mathbb{E}[B_t^2 - 2B_tB_u + B_u^2 | \mathcal{F}_u] = 
+$$
+By linearity of conditional expectation:
+
+$$
+= \mathbb{E}[B_t^2| \mathcal{F}_u] - 2\mathbb{E}[B_tB_u| \mathcal{F}_u] + \mathbb{E}[B_u^2| \mathcal{F}_u] = 
+$$
+By measurability and taking out what is known:
+
+$$
+= \mathbb{E}[B_t^2| \mathcal{F}_u] - B_u\mathbb{E}[B_t| \mathcal{F}_u] + B_u^2 = 
+$$
+
+
