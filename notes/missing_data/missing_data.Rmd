@@ -1,0 +1,136 @@
+---
+title: "Multiple Imputation"
+output: html_document
+bibliography: bibliography.bib
+---
+
+Notation:
+
+* $y$: our data matrix, with dimension $n \times p$, where $n$ is the number of 
+     data points and $p$ is the number of variables. Note: we will adopt the 
+     notation used in @gelman2013bayesian, with $y = (y_{obs}, y_{mis})$, 
+     where $y_{obs}$ denotes the observed values and $y_{mis}$ the missing values.
+     
+* $R$: the missing-data indicator matrix; it has the same dimension of $y$, and 
+       it has element $(i, j)$ 1 if $y_{i, j}$ is observed, and 0 otherwise.
+
+* $\theta$: the parameters that govern the data model $p(y|\theta)$.
+
+* $\phi$: the parameters that govern the missing data mechanism. This is 
+          characterised by the conditional distribution of $R$ given $y$ and
+          $\phi$: $p(R|\phi, y)$.
+
+## Missing Data Mechanisms
+
+* **MCAR**: We have data **missing completely at random** when the missingness does
+        not depend on $y$, but only on $\phi$, i.e.:
+        
+    $$
+    p(R|\phi, y) = p(R|\phi)
+    $$
+        
+* **MAR**: We have data **missing at random** when the missingness does
+       not depend on $y_{mis}$, but only on $\phi$ and $y_{obs}$. In other 
+       words, the value of a variable does not influence the likelihood of that
+       value being missing, i.e.:
+       
+    $$
+    p(R|\phi, y) = p(R|\phi, y_{mis})
+    $$
+        
+        
+* **MNAR**: we have data **missing not at random** when the missingness depends on both
+      the observed and the missing data, and we cannot simplify the expression 
+      $p(R|\phi, y)$ further.
+
+### Examples 
+
+## Ignorability of the mechanism of missingness
+
+When doing inference with missing data, what we observe is $(y_{obs}, R)$, and 
+we want to make inferences around $\theta$. Often we don't really care about 
+$\phi$. Hence, we are interested in:
+
+$$
+p(\theta | y_{obs}, R)
+$$
+
+Nevertheless, when making such inferences, we need to take into account $y_mis$
+and $\phi$. What we want to do is hence use them in our inference process, and
+then averaging over them:
+
+$$
+p(\theta | y_{obs}, R) = \int \int p(\theta, \phi, y_{mis}| y_{obs}, R) d\phi dy_{mis}
+$$
+
+Our objective is to separate, as much as possible, the inferences that we make
+starting from complete data, i.e. $p(\theta|y)$, from the rest. If we can 
+achieve such a separation, then we can think of imputing the missing data as 
+a separate step from the inference. In other words, we **don't need** to set up
+a full probability model including the mechanism of missingness. 
+
+Let's start by using the chain rule to transform the joint probability on the 
+three unknowns into a conditional one - which is the first step if we want to 
+separate the two phases of the inferences:
+
+$$
+p(\theta | y_{obs}, R) = \int \int p(\theta| y_{obs}, y_{mis}, R, \phi) p(\phi | y_{mis}, y_{obs}, R) p(y_{mis} | y_{obs}, R) d\phi dy_{mis}
+$$
+Now let's try to simplify this expression:
+
+* In our modelling assumptions, we specified that $\theta$ are the paramters of 
+  our complete data model, and $\phi$ are the parameters of the mechanism of 
+  missingness. We didn't say, however that $\phi$ and $\theta$ are independent.
+  Nevertheless, given $\phi$, $\theta$ is independent of R (we have conditional
+  independence given $\phi$). Hence:
+  
+  $$
+  p(\theta| y_{obs}, y_{mis}, R, \phi) = p(\theta| y_{obs}, y_{mis}, \phi)
+  $$
+* Furthermore, if we assume independence between $\phi$ and $\theta$:
+  $$
+  p(\theta| y_{obs}, y_{mis}, R, \phi) = p(\theta| y_{obs}, y_{mis})
+  $$
+  
+* If we also assume **MAR**, it can be proven using Bayes theorem that:
+  $$
+  p(y_{mis} | y_{obs}, R) = p(y_{mis} | y_{obs})
+  $$
+  Intuitively, this makes sense: given that the missingness does not depend on 
+  the missing value given the observed data, the inverse is also true.
+  
+Hence, our expression becomes:
+
+$$
+p(\theta | y_{obs}, R) = \int \int p(\theta| y_{obs}, y_{mis}) p(\phi | y_{mis}, y_{obs}, R) p(y_{mis} | y_{obs}) d\phi dy_{mis} = 
+$$
+$$
+= \int p(\theta| y_{obs}, y_{mis}) p(y_{mis} | y_{obs}) \int p(\phi | y_{mis}, y_{obs}, R)  d\phi dy_{mis}
+$$
+Where the integral in $d\phi$, being the integral of a conditional distribution,
+integrates to 1, and we have:
+
+$$
+p(\theta | y_{obs}, R) = \int p(\theta| y_{obs}, y_{mis}) p(y_{mis} | y_{obs}) dy_{mis}
+$$
+Given a pair of additional assumptions (**MAR** and independence between $\phi$ 
+and $\theta$) we have been able to achieve the separation, and to completely 
+ignore the missing data mechanism. In other words, the missing data pattern 
+provides no information on $\theta$, and:
+
+$$
+p(\theta | y_{obs}, R) = p(\theta | y_{obs})
+$$
+
+Indeed, this two assumptions are a sufficient condition for **ignorability**. [@gelman2013bayesian].
+
+Note that we we managed to do is to express our posterior as a combination of 
+two simple posteriors, that represent the two steps of the imputation:
+
+1. We impute the missing data given the observed data ($p(y_{mis} | y_{obs})$)
+
+2. We make our inferences on assuming complete data ($p(\theta| y_{obs}, y_{mis})$)
+
+## Multiple Imputation
+
+## Bibliography
