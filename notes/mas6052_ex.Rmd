@@ -309,7 +309,103 @@ That is, $Y_n$ converges a.s. to $Y = Y_{\infty}$.
 * (e) Prove that $Y_n$ has a uniform distribution on $\{k2^{-n}; k = 0, 1, ..., 2^{n - 1}\}$
 * (r) Prove that $Y$ has a uniform distribution on $[0, 1]$
 
+\newpage
+
 # Chapter 10
+
+In all the following questions, $B_t$ denotes Brownian motion.
+
+## 10.1
+
+Consider the process:
+
+$$
+C_t = \mu t + \sigma B_t, \ \ t \geq 0, \ \, \mu \in \mathbb{R}, \ \, \sigma > 0
+$$
+
+(a). Find the mean and variance of $C_t$
+
+We have:
+
+$$
+\mathbb{E}[C_t] = \mathbb{E}[C_t] = \mathbb{E}[\mu t + \sigma B_t]
+= \mu t + \sigma\mathbb{E}[B_t] = \mu t
+$$
+
+and:
+$$
+\mathbb{E}[C_t^2] = \mathbb{E}[(\mu t)^2 + 2\mu t\sigma B_t +  (\sigma B_t)^2]
+= (\mu t)^2 + 2\mu t\sigma \mathbb{E}[B_t] + \sigma^2\mathbb{E}[B_t^2]
+= (\mu t)^2 + \sigma^2t
+$$
+and, finally:
+
+$$
+\mathbb{V}ar[C_t] = \mathbb{E}[C_t^2] - \mathbb{E}[C_t]^2 = (\mu t)^2 + \sigma^2t - (\mu t)^2 = \sigma^2t
+$$
+
+**This one needs checking: can't I also state that** $C_t \sim \mathbb{N}(\mu t, \sigma^2t)$?
+
+(b). Let $0 \leq u \leq t$. What is the distribution of $C_t - C_u$
+
+We have that:
+
+$$
+C_t - C_u = \mu t + \sigma B_t - \mu u + \sigma B_u
+= \mu (t - u) + \sigma(B_t - B_u)
+$$
+We know that:
+
+$$
+B_t - B_u \sim \mathcal{N}(0, t - u)
+$$
+And, by the properties of the normal distribution:
+
+$$
+C_t - C_u \sim \mathcal{N}(\mu (t - u), \sigma^2(t - u))
+$$
+
+(c). Is $C_t$ a random continuous function?
+
+Yes, since it is a the result of a continuous function applied to a random continuous function, i.e. 
+Brownian motion.
+
+**This one needs checking**
+
+(d). Is $C_t$ a Brownian motion?
+
+No, as $C_t - C_u$ has not mean 0.
+
+## 10.2 
+
+Let $0 \leq u \leq t$. Use the properties of Brownian motion to show that $\text{cov}(B_t, B_u) = u$
+
+We have:
+
+$$
+\mathbb{C}\text{ov}[B_t, B_u] = \mathbb{E}[B_tB_u] - \mathbb{E}[B_t]\mathbb{E}[B_u] =
+\mathbb{E}[B_tB_u] = \mathbb{E}[B_tB_u - B_u^2 + B_u^2] =
+$$
+$$
+= \mathbb{E}[B_u(B_t - B_u)] + \mathbb{E}[B_u^2] = 
+$$
+Since, for any $0 \leq u \leq t$, the random variable $B_t - B_u$ is independent
+of $\sigma(B_v; v\leq u)$:
+
+$$
+= \mathbb{E}[B_u]\mathbb{E}[B_t - B_u] + \mathbb{E}[B_u^2] = u
+$$
+
+## 10.3
+
+Let $u \geq 0$ and $t \geq 0$. Show that $\mathbb{E}[B_u | \mathcal{F}_t] = B_{\text{min}(u, t)}$.
+
+* if $u \geq t$, then, by the martingale property of Brownian motion, $\mathbb{E}[B_u | \mathcal{F}_t] = B_t$
+
+* if $u < t$, then $B_u \in m\mathcal{F}_t$. Hence, by the measurability property
+  of conditional expectation, $\mathbb{E}[B_u | \mathcal{F}_t] = B_u$
+
+Combining the two cases together, we get the desired result.
 
 ## 10.4
 
@@ -403,6 +499,14 @@ both terms on the right hand side are, as we've seen in part (c). We also know
 that $L^2$ is the set of random variables with finite variance, and hence 
 $B^n_t \in L^2$. Finally, we know that if a random variable is in $L^2$, then it 
 is also in $L^1$. Hence, $B^n_t \in L^1$.
+
+## 10.5
+
+Let $Z \sim \mathcal{N}(\mu, \sigma^2)$. 
+Show that $\mathbb{E}[\text{e}^X] = \text{e}^{\mu + \frac{1}{2}\sigma^2}$.
+*(Hint: complete the square!)*
+
+\newpage
 
 # Chapter 11
 
@@ -499,6 +603,12 @@ $$
 $$
 And $X_t$ is not in $\mathcal{H}^2$. *Note that we can't simply use the* 
 *stochastic process $X_t = Z$, because we can't guarantee that such process is adapted.*
+
+\newpage
+
+# Chapter 12
+
+## 12.13 - Challenge Question
 
 # Assignment 1
 
@@ -666,6 +776,8 @@ output: pdf_document
     We have that $|Y| \leq 1$, hence $Y$ is bounded. Thus, using monotonicity,
     we have that $\mathbb{E}[|Y|^p| \leq 1 \leq \infty$ for any $p$. Hence, by
     the definition of $L^p$ spaces, $Y \in L^p$ for any $p \in [1, \infty)$.
+
+\newpage
 
 # Assignment 2
 
@@ -895,6 +1007,7 @@ output: pdf_document
    $$
    V_0^h = 0 \Rightarrow \frac{10}{11}K - 4 = 0 \Rightarrow K = 4.4
    $$
+\newpage
 
 # Assignment 3
 
@@ -1026,6 +1139,8 @@ output: pdf_document
    * $\mathbb{E}[S_{\infty}] = \lim_{n \rightarrow \infty} \mathbb{E}[S_{n}] = \lim_{n \rightarrow \infty} \mathbb{E}[\sum^{n}_{i  = 1} X_i] = \lim_{n \rightarrow \infty} \sum^{n}_{i  = 1} \mathbb{E}[X_i] = \lim_{n \rightarrow \infty} \sum^{n}_{i  = 1} 0$
    * $\mathbb{V}[S_{\infty}] = \lim_{n \rightarrow \infty} \mathbb{V}[S_{n}] = \mathbb{E}[S^2_{n}] - \mathbb{E}[S_{n}]^2 = \mathbb{E}[S^2_{n}] = \sum^{n}_{i  = 1} \frac{1}{i^4}$
 
+\newpage
+
 # Assignment 4
 
 1. Let $B_t$ be a standard Brownian motion
@@ -1088,7 +1203,7 @@ $$
    with the initial condition $Y_0 = 1$.
    
    Suppose that $X_0 = 1$. Show that $f(t) = \mathbb{E}[X_t]$ satisfies 
-   $f(t) = 2f(t) + 2$ and hence find $f(t)$.
+   $f'(t) = 2f(t) + 2$ and hence find $f(t)$.
 
 We have:
 
@@ -1096,23 +1211,131 @@ We have:
 
 (b). $Y_t= Y_0 + 3\int_0^t Y_u du$.
 
-A differential equation satisfied by $Y_t$ is:
+Using the fundamental theorem of calculus, we get:
 
 $$
 \frac{dY_t}{dt} = 3 Y_t
 $$
-Which is a separable equation.
+
+We can solve the equation by operating the substition $Z_t = \log(X_t)$:
+
+$$
+\frac{dZ_t}{dt} = \frac{dZ_t}{dY_t}\frac{dY_t}{dt} = 
+\frac{1}{Y_t}3Y_t = 3
+$$
+And hence:
+
+$$
+Z_t = 3t + C, \ C \in \mathbb{R}
+$$
+
+By substituting back:
+
+$$
+Y_t = e^{3t + C}, \ C \in \mathbb{R}
+$$
+This is the general solution, to find the particular solution we impose the 
+initial condition:
+
+$$
+Y_0 = e^{C} = 1 \Rightarrow C = 0
+$$
+Hence, the particular solution is:
+$$
+Y_t = e^{3t}
+$$
+As for the second part of the assignment, we start by calculating $\mathbb{E}[X_t]$:
+
+$$
+\mathbb{E}[X_t] = \mathbb{E}\left[ X_0 + \int_0^t 2(X_u + 1)du  + \int_0^t 2B_u dB_u \right]
+$$
+Using linearity of expectation, lemma 11.4.2 to swap the expectation and the 
+integration, and the fact the the Ito integral is a martingal with mean zero:
+
+$$
+\mathbb{E}[X_t] = X_0 + \int_0^t \mathbb{E}\left[2(X_u + 1)\right]du = 
+X_0 + \int_0^t (2\mathbb{E}\left[X_u\right] + 2)du
+$$
+And hence:
+
+$$
+f(t) = X_0 + \int_0^t 2f(u)du + 2t
+$$
+Using the fundamental theorem of calculus:
+
+$$
+f'(t) = 2f(t) + 2
+$$
+This is a linear ordinary differential equation that we can solve by using an 
+integrating factor:
+$$
+\alpha(t) = e^{\int_0^t -2 du} = e^{-2t}
+$$ 
+Hence:
+
+$$
+f(t) = \frac{1}{\alpha(x)}\left( f(0) + \int_0^t 2\alpha(u) du \right)
+= e^{2t}(1 + 2\int_0^t e^{-2t} du) = e^{2t}(1 - (e^{-2t} - 1)) = 2e^{2t - 1}
+$$
 
 3. Use Ito’s formula to calculate the stochastic differential of $dZ_t$, where:
 
    (a). $Z_t = t B_t$
   
-   (b). $Z_t = 1 + t 2X_t$ where $dX_t = \mu dt + \sigma B_t dB_t$ and $\mu, \sigma$ 
+   (b). $Z_t = 1 + t^2X_t$ where $dX_t = \mu dt + \sigma B_t dB_t$ and $\mu, \sigma$ 
         are deterministic constants.
     
    (c). $Z_t= e^{-2t}S_t$ where $dS_t = 2S_t dt + 5 S_t dB_t$.
 
    In which cases is $Z_t$ a martingale?
+
+(a). Using the lecture notes notation, we have: 
+
+* $X_t = B_t$, hence $F_t = 0, G_t = 1$
+* $f(t, x) = tx$, hence $\frac{\partial f}{\partial t} = x$, 
+  $\frac{\partial f}{\partial x} = t$, 
+  $\frac{\partial^2 f}{\partial x^2} = 0$. 
+  
+Using Ito-Doeblin formula:
+$$
+dZ_t = \frac{\partial f}{\partial t}dt + \frac{\partial f}{\partial x}dB_t = B_tdt + tdB_t
+$$
+
+(b). Here we have:
+
+* $F_t = \mu, G_t = \sigma B_t$
+* $f(t, x) = 1 + t^2x$, hence 
+  $\frac{\partial f}{\partial t} = 2tx$, 
+  $\frac{\partial f}{\partial x} = t^2$, 
+  $\frac{\partial^2 f}{\partial x^2} = 0$. 
+
+Using Ito-Doeblin formula:
+
+$$
+dZ_t = \left(\frac{\partial f}{\partial t} + \mu \frac{\partial f}{\partial x} + \right )dt +  \sigma B_t\frac{\partial f}{\partial x}dB_t =
+\left( 2tX_t + \mu t^2  \right )dt +  \sigma B_t t^2 dB_t
+$$
+
+(c). Here we have:
+
+* $F_t = 2S_t, G_t = 5 S_t$
+* $f(t, x) = xe^{-2t}$, hence 
+  $\frac{\partial f}{\partial t} = -2xe^{-2t}$, 
+  $\frac{\partial f}{\partial x} = e^{-2t}$, 
+  $\frac{\partial^2 f}{\partial x^2} = 0$. 
+  
+Using Ito-Doeblin formula:
+
+$$
+dZ_t = \left(\frac{\partial f}{\partial t} + 2S_t \frac{\partial f}{\partial x} + 
+\right )dt +  5S_t\frac{\partial f}{\partial x}dB_t =
+\left( -2S_te^{-2t} + 2S_t e^{-2t} \right )dt +  5S_t e^{-2t} dB_t = 5S_t e^{-2t} dB_t
+$$
+
+
+
+Finally, we have that $Z_t$ in (c), being an Ito integral, is a martingale.
+
 
 4. Let $S_t$ be a geometric Brownian motion, with drift $\mu \in \mathbb{R}$, 
    volatility $\sigma > 0$, and (deterministic) initial condition $S_0$.
@@ -1121,3 +1344,43 @@ Which is a separable equation.
    $\mu \neq 0$.
    
    (b). Is $S_t$ a Brownian motion when $\mu = 0$?
+   
+(a). We have:
+
+$$
+S_t = S_0 + \int_0^t \mu S_u du + \int_0^t \sigma S_u dBu
+$$
+Hence, using lemma 11.4.2 and the fact that Ito integrals are martingals with 
+mean 0:
+
+$$
+\mathbb{E}[S_t] = S_0 + \int_0^t \mu \mathbb{E}[S_u] du
+$$
+
+Using the fundamental theorem of calculus:
+
+$$
+\frac{d\mathbb{E}[S_t]}{dt} = \mu \mathbb{E}[S_t]
+$$
+
+Operating the substitution $f(t) = \log{\mathbb{E}[S_t]}$:
+
+$$
+\frac{df}{dt} = \frac{df}{d\mathbb{E}[S_t]} \frac{d\mathbb{E}[S_t]}{dt} = \mu 
+$$
+
+And thus:
+$$
+f(t) = \mu t + C \Rightarrow \mathbb{E}[S_t] = C'e^{\mu t}
+$$
+Hence, if $\mu \neq 0$, we have that $S_t$ is not a martingale, hence it can't 
+be Brownian Motion. Note that we could have directly worked with the expression for geometric Brownian Motion, rather than with the corresponding SDE.
+
+(b). When $\mu = 0$, we have
+
+$$
+S_t = S_0e^{-\frac{1}{2} \sigma^2 t + \sigma B_t}
+$$ 
+
+Hence, $S_t$ is a log-normal random variable, and the process can't
+be a Brownian Motion.
