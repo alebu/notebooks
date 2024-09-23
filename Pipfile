@@ -12,7 +12,9 @@ pytest = "*"
 missingno = "*"
 seaborn = "*"
 scikit-learn = "*"
-pymc3 = "*"
+pymc = "*"
+ipykernel = "*"
+nbconvert = "*"
 
 [dev-packages]
 
