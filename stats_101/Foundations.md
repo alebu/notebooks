@@ -1,14 +1,3 @@
-# What you'll learn from this
-
-* Samples and Statistics
-* LLN
-* Estimators
-* CLT
-* Sampling Distributions
-* Confidence Intervals
-* Hypothesis Testing
-
-
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -110,7 +99,7 @@ plt.xlabel("n");
 
 
     
-![png](Foundations_files/Foundations_6_0.png)
+![png](Foundations_files/Foundations_5_0.png)
     
 
 
@@ -162,7 +151,7 @@ plt.ylabel("Density");
 
 
     
-![png](Foundations_files/Foundations_9_0.png)
+![png](Foundations_files/Foundations_8_0.png)
     
 
 
@@ -192,7 +181,7 @@ plt.xlabel("n");
 
 
     
-![png](Foundations_files/Foundations_11_0.png)
+![png](Foundations_files/Foundations_10_0.png)
     
 
 
@@ -212,7 +201,7 @@ plt.ylabel("Density");
 
 
     
-![png](Foundations_files/Foundations_13_0.png)
+![png](Foundations_files/Foundations_12_0.png)
     
 
 
@@ -257,7 +246,7 @@ It might be clear, but this achieves exactly what we wanted: we are quantifying 
 
 This means that bigger sample sizes will result in narrower interval, indicating we have less uncertainty around how estimate, which matches our intuition. 
 
-Let's simulate this:
+Let's simulate this. We'll start by writing a function that calculates the confidence interval for the sample mean of a given sample:
 
 
 ```python
@@ -272,82 +261,44 @@ def calculate_95ci(X):
     return ci
 ```
 
+Again, this should make clear that the confidence interval (and the point estimate, for that matters) is a function of the data. Let's go through the function:
+
+* In the first two lines, we calculate the sample mean and variance, and in the third line we store the sample size in a variable, `n`.
+* Then, we calculate the ci using the formula that we outlined above. Notice that as $z_{\alpha/2}$ we used 1.96, which is approximately the value for $\alpha = 0.95$ (worth memorising!).
+
+
+As the data is random, the confidence interval is random. Now, let's simulate a sample of 30 coin tosses and calculate the confidence interval for the sample mean:
+
 
 ```python
-n = 500
-X_i = np.random.choice(possible_results, size = 30)
+n = 30
+X_i = np.random.choice(possible_results, size = n)
 ci = calculate_95ci(X_i)
+print(f"The confidence interval goes from {ci[0]:.2f} to {ci[1]:.2f}")
 ```
 
-
-```python
-cis = []
-sample_means = []
-ci_contains_mu = []
-m = 1000
-for i in range(m):
-    X_i = np.random.choice(possible_results, size = n)
-    sample_mean = X_i.mean()
-    sample_variance = X_i.std()**2
-    ci = (
-        sample_mean - 1.96*np.sqrt(sample_variance/n),
-        sample_mean + 1.96*np.sqrt(sample_variance/n)
-    )
-    cis.append(ci)
-    ci_contains_mu.append(
-        (ci[0] <= .5)&
-        (ci[1] >= .5)
-    )   
-    sample_means.append(sample_mean)
+    The confidence interval goes from 0.39 to 0.74
 
 
-
-_, ax = plt.subplots()
-ax.fill_between(
-    np.arange(m),
-    [ci[0] for ci in cis],
-    [ci[1] for ci in cis],
-    color = palette[1]
-)
-ax.axhline(.5, color = palette[0]);
-```
-
-
-    
-![png](Foundations_files/Foundations_19_0.png)
-    
-
+How do we interpret this? We are saying that, with 95% confidence, we believe the expected value of the random variables (that is, in our case, the probability of getting head when tossing the coin) we are analysing lies within this interval. Notice how I did not use the word probability; as we said at the beginning, since we are considering the unknown expected value deterministic, we cannot speak of a probability distribution for it. While this might sound like a total abstract, philosophical controversy, it's actually important and getting the wrong interpretation might lead to gross mistakes in particular situations (which we'll not analyse here, but an example can be found in [1]). How, then, shall we interpret a confidence interval?
 
 ### A useful way of interpreting Confidence Intervals
 
+In [1], Wasserman illustrates a very useful way of interpreting confidence intervals. We can say that, if we routinely calculate 95% confidence intervals, these intervals will contain the true parameter we are trying to estimate 95% of the times. In this sense, we can interpret the confidence as a probability: it is enough to keep in mind that is not a probability statement over the parameter, but over the method we are using to estimate it. It needs not to be the same experiment, repeated over and over (which is sometime how you find the confidence interval interpretation explained). We can run different experiment, on different parameters, with different sample sizes, and this property will hold.
 
-```python
-plt.plot()
-```
-
-
-
-
-    [<matplotlib.lines.Line2D at 0x75874f19ad90>]
-
-
-
-
-    
-![png](Foundations_files/Foundations_21_1.png)
-    
-
+Again, we can verify this with Python. We'll simulate running a bunch of experiments (m = 2000) on different coins. Every coin has a different probability of getting head (we encode this information in the variable `mus`), and we throw it a different number of times (we encode this information in the variable `ns`). For each of this, we'll calculate a confidence interval for the sample mean:
 
 
 ```python
-m = 3650
+m = 2000
 cis = []
 sample_means = []
 mus = 0.5 + ((np.random.normal(size = m)*5).cumsum())/m
+ns = np.random.normal(200, 50, size = m).astype(int)
 ci_contains_mu = []
 
 for i in range(m):
-    # p_tails = np.random.uniform()
+    n = ns[i]
     mu = mus[i]
     X_i = np.random.choice(possible_results, size = n, p = [1 - mu, mu])
     sample_mean = X_i.mean()
@@ -366,17 +317,32 @@ for i in range(m):
 
 
 ```python
+coverage = np.array([
+    (cis[i][0] <= mus[i])&
+    (cis[i][1] >= mus[i]) 
+    for i in range(len(cis))
+])
+print(f"Our confidence intervals include the true parameter {coverage.mean()*100}% of the time.")
+```
+
+    Our confidence intervals include the true parameter 94.35% of the time.
 
 
+We see that we get exactly what we were expecting.
+
+
+```python
 _, ax = plt.subplots()
 ax.fill_between(
     np.arange(m),
     [ci[0] for ci in cis],
     [ci[1] for ci in cis],
-    color = palette[1]
+    color = palette[1],
+    label = "Confidence Interval for the sample mean"
 )
-ax.plot(np.arange(m), mus, linestyle = ":")
-# ax.axhline(.5, color = palette[0]);
+ax.plot(np.arange(m), mus, linestyle = ":", label = "True Expected Value (Probability of getting head in a coin toss)")
+ax.set_xlabel("Experiment")
+ax.legend()
 
 coverage = np.array([
     (cis[i][0] <= mus[i])&
@@ -388,23 +354,48 @@ _, ax = plt.subplots()
 ax.plot(coverage.cumsum()/np.arange(1, m + 1), color = palette[1])
 ax.axhline(0.95);
 ax.set_ylim(0.8, 1)
+ax.set_xlabel("Number of experiments ran")
+ax.set_ylabel("Proportion of confidence interval including the true value")
+
+_, ax = plt.subplots()
+cis_width = np.array([ci[1] - ci[0] for ci in cis])
+ax.scatter(ns, cis_width, color = palette[1]);
+ax.set_xlabel("Sample Size (n)")
+ax.set_ylabel("Width of Confidence Interval")
 ```
 
 
 
 
-    (0.8, 1.0)
+    Text(0, 0.5, 'Width of Confidence Interval')
 
 
 
 
     
-![png](Foundations_files/Foundations_23_1.png)
+![png](Foundations_files/Foundations_24_1.png)
     
 
 
 
     
-![png](Foundations_files/Foundations_23_2.png)
+![png](Foundations_files/Foundations_24_2.png)
     
 
+
+
+    
+![png](Foundations_files/Foundations_24_3.png)
+    
+
+
+Let's analyse the three plots above:
+
+* In the first one, we see plotted the confidence intervals we estimate and the true value for each coin on which we run an experiment. We can see that the vast majority of the times, the intervals include the true value. From this plot it's difficult to ascertain what proportion of the times, but it gives us a good visualisation of the simularion we are running.
+%
+* In the second plot, we see the proportion of the confidence intervals that include the true value, varying with the number of experiment ran. As the number of experiments grows, this proportion converges towards the value 95%, as expected.
+* In the last plot, we see how the confidence interval widths vary with the sample sizes. As we described above, there is an inverse relationship between the two (with the sample size contributing with with its square root). The fact that we do not get an exact relationship here is due to the fact that the width is also influenced by the data standard deviation, which in our case varies with the true parameter $p$.
+
+## References
+
+[1] Wasserman, All of Statistics
