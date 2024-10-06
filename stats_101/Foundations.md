@@ -75,7 +75,7 @@ $$
 \sigma^2 = \mathbb{V}[X] = \mathbb{E}[X^2] - \mathbb{E}[X]^2 = p(1 - p) = .25
 $$
 
-and we are able to estimate the probability of the coin of landing on head using the sample mean. Notice that we are getting what we want - a probability model for the data - without making particularly strong assumptions. The Law of the Large numbers ensures us that with a big enough sample, we'll get to the right answer. Thanks to Python, we don't have to trust this. We can actually try it out. Using NumPy Random library, we can simulate a sample of 300 coin tosses from a fair coin:
+and we are able to estimate the probability of the coin of landing on head using the sample mean. The Law of the Large numbers ensures us that with a big enough sample, we'll get to the right answer. Thanks to Python, we don't have to trust this. We can actually try it out. Using NumPy Random library, we can simulate a sample of 300 coin tosses from a fair coin:
 
 
 ```python
@@ -284,7 +284,7 @@ How do we interpret this? We are saying that, with 95% confidence, we believe th
 
 ### A useful way of interpreting Confidence Intervals
 
-In [1], Wasserman illustrates a very useful way of interpreting confidence intervals. We can say that, if we routinely calculate 95% confidence intervals, these intervals will contain the true parameter we are trying to estimate 95% of the times. In this sense, we can interpret the confidence as a probability: it is enough to keep in mind that is not a probability statement over the parameter, but over the method we are using to estimate it. It needs not to be the same experiment, repeated over and over (which is sometime how you find the confidence interval interpretation explained). We can run different experiment, on different parameters, with different sample sizes, and this property will hold.
+In [1], Wasserman illustrates a very useful way of interpreting confidence intervals. We can say that, if we routinely calculate 95% confidence intervals, these intervals will contain the true parameter we are trying to estimate 95% of the times. In this sense, we can interpret the confidence as a probability: it is enough to keep in mind that is not a probability statement over the parameter, but over the method we are using to estimate it. It needs not to be the same experiment, repeated over and over (which is sometimes how you find the confidence interval interpretation explained). We can run different experiments, on different parameters, with different sample sizes, and this property will still hold.
 
 Again, we can verify this with Python. We'll simulate running a bunch of experiments (m = 2000) on different coins. Every coin has a different probability of getting head (we encode this information in the variable `mus`), and we throw it a different number of times (we encode this information in the variable `ns`). For each of this, we'll calculate a confidence interval for the sample mean:
 
