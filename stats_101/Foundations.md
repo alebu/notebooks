@@ -122,7 +122,7 @@ $$
     X_1 + X_2 + ... + X_n \sim \mathcal{N}(n\mu, n\sigma^2)
 $$
 
-as $n \rightarrow \infty$. Technically, what we have in this theorem in a convergence in distribution. Without going into too much technical details, what this means is that with a large enough n, we can make approximate probability statements about the sum of the Random Variables.
+as $n \rightarrow \infty$. Technically, what we have in this theorem in a convergence in distribution; Without worrying too much about the technical definitions of types of convergence, what this means is that with a large enough n, we can make approximate probability statements about the sum of Random Variables at hand.
 
 Before looking at how this theorem is useful for statistical inference, we can notice that even just this first results gives us a lot of insight on one possible way normal distributions can arise. Whenever we have an outcome that is the result of a lot of individual random contributions being summed up, we tend to get a Normal distribution as a result. 
 
@@ -165,7 +165,7 @@ $$
 
 In fact, this one, and not the previous one, is the precise statement of the CLT. Notice that this is exactly what we are after: a probabilistic description of how our random statistic behaves. 
 
-We'll check this, computationally, by considering many different samples (N = 1000) and looking at how their sample mean changes as n grows. This is like imagining many worlds in which the same coin is flipped n times, and look at how the the sample mean we get in each world varies when we grow the sample size n.
+We'll check this, computationally, by considering many different samples (m = 1000) and looking at how their sample mean changes as n grows. This is like imagining many worlds in which the same coin is flipped n times, and look at how the the sample mean we get in each world varies when we grow the sample size n.
 
 
 ```python
@@ -214,7 +214,7 @@ Let's reflect on what we achieved:
 
 There is something to be noticed here: the standard error depends on the standard deviation of the random variables we are studying, which is one of the parameters of the probability model of the data that we **don't** know. Hence, what we usually do is estimate the standard error (by using another statistic, the sample variance) in order to estimate the sampling distribution.
 
-The question, now, is how do we use these results for Statistical Inference. The typical situation we found ourselves in is to have a single sample (in our setting, N = 1), and from that we want to learn something about the data generating process. Thanks to the result above, after making some assumptions about the random variables we are studying, we can calculate the theoretical distribution of our statistic. How can we use this to quantify our uncertainty about the point estimates we calculate? In classical statistics, one of the simplest ways we have to do this is through the use of confidence intervals.
+The question, now, is how do we use these results for Statistical Inference. The typical situation we found ourselves in is to have a single sample (in our setting, m = 1), and from that we want to learn something about the data generating process. Thanks to the result above, after making some assumptions about the random variables we are studying, we can calculate the theoretical distribution of our statistic. How can we use this to quantify our uncertainty about the point estimates we calculate? In classical statistics, one of the simplest ways we have to do this is through the use of confidence intervals.
 
 ## Confidence Intervals
 
@@ -355,20 +355,19 @@ ax.plot(coverage.cumsum()/np.arange(1, m + 1), color = palette[1])
 ax.axhline(0.95);
 ax.set_ylim(0.8, 1)
 ax.set_xlabel("Number of experiments ran")
-ax.set_ylabel("Proportion of confidence interval including the true value")
+ax.set_title("Proportion of confidence interval including the true value")
 
 _, ax = plt.subplots()
 cis_width = np.array([ci[1] - ci[0] for ci in cis])
 ax.scatter(ns, cis_width, color = palette[1]);
 ax.set_xlabel("Sample Size (n)")
-ax.set_ylabel("Width of Confidence Interval")
+ax.set_ylabel("Width of Confidence Interval");
 ```
 
 
-
-
-    Text(0, 0.5, 'Width of Confidence Interval')
-
+    
+![png](Foundations_files/Foundations_24_0.png)
+    
 
 
 
@@ -380,12 +379,6 @@ ax.set_ylabel("Width of Confidence Interval")
 
     
 ![png](Foundations_files/Foundations_24_2.png)
-    
-
-
-
-    
-![png](Foundations_files/Foundations_24_3.png)
     
 
 
